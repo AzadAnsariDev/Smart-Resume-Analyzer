@@ -1,0 +1,644 @@
+@font-face {
+  font-family: info;
+  src: url(./fonts/info.woff2);
+}
+
+.cl-userButtonTrigger span[class^="cl-internal"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+.cl-avatarBox, .cl-avatarImage {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #000;
+  position: relative;
+}
+@mixin glow() {
+  position: absolute;
+  width: 25vw;
+  height: 25vw;
+  background: #144b3e;
+  filter: blur(100px);
+  top: -150px;
+  left: 40%;
+  transform: translateX(-50%);
+}
+
+@mixin font() {
+  font-size: 1.5rem;
+  font-family: "NeueMachina";
+  font-weight: 300;
+}
+
+main {
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding-top: 100px;
+
+  .glow1 {
+    @include glow();
+  }
+  .glow2 {
+    @include glow();
+    left: 80%;
+    height: 300px;
+  }
+
+  /* Fix Clerk UserButton from being styled by #login buttons */
+/* Full reset for Clerk User Button */
+.cl-userButtonRoot,
+.cl-userButtonBox {
+  all: unset !important;
+  width: 42px !important;
+  height: 42px !important;
+  display: block !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  padding: 10px !important;
+  margin: 0 !important;
+  background: none !important;
+  border: 2px solid white !important;
+}
+
+/* Avatar inside */
+.cl-avatarBox,
+.cl-avatarImage {
+  all: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  overflow: hidden !important;
+}
+
+
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 10vw;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  transition: transform 0.35s ease,
+    // smooth slide
+    background 0.35s ease,
+    backdrop-filter 0.35s ease, border 0.35s ease;
+
+  &.scrolled {
+    background: rgba(0, 0, 0, 0.4); /* transparent black */
+    backdrop-filter: blur(10px); /* glassmorphism blur */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* faint line */
+  }
+  #logo-container {
+    width: clamp(80px, 10vw, 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+      z-index: 10;
+    }
+
+    h2 {
+      @include font();
+      z-index: 10;
+    }
+  }
+
+  #nav-info {
+    
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    z-index: 1000;
+
+    
+    a{
+  text-decoration: none;
+  color: inherit;   // VERY IMPORTANT
+    }
+
+    h4 {
+      @include font();
+      z-index: 10;
+    }
+  }
+
+  #login {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-width: 300px;
+
+  .nav-btn1{
+  padding: 10px 20px;
+  background-color: #e4e4e4;
+  color: #384347;
+  @include font();
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  }
+  .nav-btn2{
+      padding: 10px 20px;
+  background-color: #2dc08d;
+  color: #fffef8;
+  @include font();
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  }
+  }
+
+  #mobileview {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    z-index: 10;
+  }
+}
+
+#info-resume {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 20px;
+  #info1 {
+    color: white;
+    font-family: info;
+    text-align: center;
+    line-height: 1.2;
+
+
+
+    h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      z-index: 10;
+    }
+    p {
+      color: #e4e4e4;
+      margin-bottom: 20px;
+    }
+
+    #diff {
+      color: #2dc08d;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #2dc08d;
+      color: #fffef8;
+      font-size: 1rem;
+      border: none;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    
+    &:active{
+        scale: 0.95;
+      }
+  }
+}
+
+
+  .resume-stack {
+    position: relative;
+    height: 500px; /* perfect for 360 rotation */
+    overflow: visible;
+    width: 350px;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    padding: 30px 10px 10px 10px;
+    margin-bottom: 10px;
+  }
+
+  .resume{
+    position: absolute;
+    width: 100px;
+    transform: translateX(-50%,-50%);
+    height: auto;
+    border-radius: 20px;
+    transition: transform 1s ease, opacity 1s ease, z-index 1s;
+    z-index: 10;
+  }
+  .glow3{
+    @include glow();
+    position: absolute;
+    top:50%;
+    left:80%;
+    z-index: 0;
+    height: 300px;
+    width: 250px;
+  }
+}
+.drop-container{
+  padding: 20px;
+  background-color: rgba(67, 67, 67, 0.26);
+  border: 2px solid #2dc08d;
+  width: 60vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  border-radius: 40px;
+  gap: 2rem;
+  color:white;
+  font-family: monospace;
+  margin-bottom: 20px;
+
+.file-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px; // <-- spacing between button & text
+}
+
+.btn {
+  background: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+
+  input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &::-webkit-file-upload-button {
+      display: none;
+    }
+  }
+}
+
+.filename {
+  color: white;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+
+  h3{
+    font-weight: 300;
+    font-family: monospace;
+
+  }
+}
+
+@property --bgColor {
+  syntax : '<angle>';
+  inherits : false;
+  initial-value : 0deg; 
+}
+
+@keyframes changeBg{
+  from{
+    --bgColor : 0deg;
+  }
+  to{
+    --bgColor : 360deg;
+  }
+}
+/* MAIN TESTIMONIAL SECTION */
+
+.container{
+  font-family: monospace;
+  padding-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content:center ;
+  align-items: center;
+  gap: 2rem;
+  padding-bottom: 20px;
+  >h1{
+    font-size: 3rem;
+    text-shadow: 5px 2px 10px #2dc08d;
+  }
+
+  .line{
+    width: 100%;
+    height: 1px;
+    background-color: #2dc08d24;
+    box-shadow: 0 0 10px #2dc08d;
+    transform: rotatey(10deg);
+  }
+  .card-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-block: 20px;
+
+  .card{  
+    width: 250px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+    box-shadow: 0 0 0px #2dc08d;
+    border: 5px solid black;
+    background: 
+    linear-gradient(black) padding-box,
+    conic-gradient(from var(--bgColor),black,  #2dc08d) border-box;
+    animation: changeBg 3s linear infinite;
+    transition: all 0.3s linear;
+    border-radius: 20px;
+    padding-block: 40px;
+    animation-play-state: paused;
+
+    .stars{
+      color: yellow;
+    }
+    img{
+      width: 100px;
+      border-radius: 50%;
+      height: 100px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    h4{
+      margin-top: 10px;
+    }
+
+    
+    &:hover{
+    border: 5px solid transparent;
+    box-shadow: 0 0 80px #2dc08d;
+    animation-play-state: running;
+  }
+  }
+
+
+}
+
+}
+
+@media (max-width: 915px) {
+  nav {
+    justify-content: center;
+    gap: 40vw;
+    
+    #logo-container {
+      width: 70px;
+      padding-left: 15px;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    #nav-info {
+      display: none;
+    }
+
+    #login {
+      display: none;
+    }
+
+    #mobileview {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 1.5rem;
+    }
+  }
+
+  /* 👇 YE NAV KE BAHAR HOGA */
+  #info-resume {
+    .resume-stack {
+      height: 300px;
+
+      img {
+        width: 200px;
+        height: auto;
+      }
+    }
+  }
+}
+
+
+/* ===================== MOBILE (max-width: 430px) ===================== */
+
+@media (max-width: 430px) {
+
+  /* NAVBAR */
+  nav {
+    margin: 0;
+
+    #logo-container {
+      width: 60px;
+
+      h2 {
+        font-size: 1rem;
+      }
+    }
+
+    #mobileview {
+      font-size: 1.2rem;
+      gap: 2rem;
+    }
+
+    #nav-info,
+    #login {
+      display: none;
+    }
+  }
+
+  /* GLOW FIX (overflow stop) */
+  .glow1,
+  .glow2,
+  .glow3 {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* HERO SECTION */
+  #info-resume {
+    padding: 20px;
+    text-align: center;
+
+    #info1 {
+      h2 {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .resume-stack {
+      width: 250px;
+      height: 300px;
+      padding: 10px;
+      overflow: hidden;
+
+      img {
+        width: 200px;
+        height: auto;
+      }
+    }
+  }
+
+  .drop-container{
+    width: 90vw;
+  }
+}
+
+@media (min-width: 1020px) {
+  main {
+    padding-top: 0px;
+  }
+  nav {
+    display: flex;
+    justify-content: space-around;
+    #nav-info h4:nth-child(3) {
+      display: none;
+    }
+    #nav-info h4 {
+      font-size: 1.4rem;
+    }
+    #logo-container {
+      padding-left: 50px;
+      h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    #login {
+      width: 40%;
+      :nth-child(1) {
+        font-size: 1.4rem;
+      }
+      :nth-child(2) {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  #info-resume {
+    flex-direction: row;
+    justify-content: center;
+    gap: 5vw;
+    align-items: center;
+    #info1 {
+      font-size: 1.5rem;
+      max-width: 50vw;
+      line-height: 1.2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+
+      button {
+        font-size: 1.5rem;
+      }
+    }
+    .resume-stack {
+    padding-top: 120px;
+      img {
+        width: 200px;
+        height: auto;
+      }
+    }
+  }
+
+  .drop-container{
+      width: 40vw;
+      padding: 50px
+  }
+}
+
+@media (min-width: 1435px) {
+  nav {
+    #logo-container {
+      padding-left: 50px;
+      h2 {
+        font-size: 2rem;
+      }
+    }
+    #nav-info {
+      h4 {
+        font-size: 2rem;
+      }
+    }
+    #login {
+      width: 40%;
+      :nth-child(1) {
+        font-size: 2rem;
+      }
+      :nth-child(2) {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  #info-resume {
+    padding-top: 20px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5vw;
+    align-items: center;
+    #info1 {
+      padding-top: 200px;
+      font-size: 2rem;
+      max-width: 40vw;
+      line-height: 2;
+      button {
+        font-size: 1.7rem;
+      }
+    }
+    .resume-stack {
+      padding-top: 50px;
+      img {
+        width: 350px;
+        height: auto;
+      }
+    }
+  }
+}
