@@ -1,8 +1,20 @@
 @charset "UTF-8";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @font-face {
-  font-family: info;
-  src: url(./fonts/info.woff2);
+  font-family: new;
+  src: url(/smart-resume-frontend/public/fonts/Inter.ttc);
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .cl-userButtonTrigger span[class^=cl-internal] {
   display: none !important;
   opacity: 0 !important;
@@ -18,12 +30,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: new;
 }
 
 html,
-body {
+body, #root {
   height: 100%;
   width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -42,8 +59,8 @@ main {
 }
 main .glow1 {
   position: absolute;
-  width: 25vw;
-  height: 25vw;
+  width: 20vw;
+  height: 20vw;
   background: #144b3e;
   filter: blur(100px);
   top: -150px;
@@ -52,8 +69,8 @@ main .glow1 {
 }
 main .glow2 {
   position: absolute;
-  width: 25vw;
-  height: 25vw;
+  width: 20vw;
+  height: 20vw;
   background: #144b3e;
   filter: blur(100px);
   top: -150px;
@@ -243,8 +260,8 @@ nav #mobileview {
 }
 #info-resume .glow3 {
   position: absolute;
-  width: 25vw;
-  height: 25vw;
+  width: 20vw;
+  height: 20vw;
   background: #144b3e;
   filter: blur(100px);
   top: -150px;
@@ -273,6 +290,19 @@ nav #mobileview {
   color: white;
   font-family: monospace;
   margin-bottom: 20px;
+}
+.drop-container .glow4 {
+  position: absolute;
+  width: 20vw;
+  height: 20vw;
+  background: #144b3e;
+  filter: blur(100px);
+  top: -150px;
+  left: 40%;
+  transform: translateX(-50%);
+  top: 500px;
+  left: 0%;
+  transform: translateX(-50%);
 }
 .drop-container .file-wrapper {
   display: flex;
@@ -416,6 +446,25 @@ nav #mobileview {
     justify-content: space-around;
     font-size: 1.5rem;
   }
+  .container {
+    padding-top: 30px;
+  }
+  .container > h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .container .card-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .container .card-container .card {
+    width: 50%;
+    padding-block: 30px;
+  }
+  .container .card-container .card img {
+    width: 90px;
+    height: 90px;
+  }
   /* 👇 YE NAV KE BAHAR HOGA */
   #info-resume .resume-stack {
     height: 300px;
@@ -477,44 +526,82 @@ nav #mobileview {
   .drop-container {
     width: 90vw;
   }
+  .container {
+    padding-top: 30px;
+  }
+  .container > h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .container .card-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .container .card-container .card {
+    width: 90%;
+    padding-block: 30px;
+  }
+  .container .card-container .card img {
+    width: 90px;
+    height: 90px;
+  }
 }
-@media (min-width: 1020px) {
+@media (min-width: 916px) {
   main {
     padding-top: 0px;
   }
   nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 10rem;
   }
   nav #nav-info h4:nth-child(3) {
     display: none;
   }
+  nav #nav-info {
+    border: 2px solid gray;
+    padding: 10px 20px;
+    border-radius: 20px;
+  }
   nav #nav-info h4 {
-    font-size: 1.4rem;
+    font-size: 1rem;
   }
   nav #logo-container {
     padding-left: 50px;
   }
   nav #logo-container h2 {
-    font-size: 1.4rem;
+    font-size: 1rem;
+  }
+  nav #logo-container img {
+    width: 100%;
+    height: 2.5rem;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+    z-index: 10;
   }
   nav #login {
-    width: 40%;
+    min-width: -moz-fit-content;
+    min-width: fit-content;
   }
   nav #login :nth-child(1) {
-    font-size: 1.4rem;
+    font-size: 1rem;
+    white-space: nowrap;
   }
   nav #login :nth-child(2) {
-    font-size: 1.4rem;
+    font-size: 1rem;
+    white-space: nowrap;
   }
   #info-resume {
     flex-direction: row;
     justify-content: center;
     gap: 5vw;
     align-items: center;
+    margin-top: 5rem;
   }
   #info-resume #info1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     max-width: 50vw;
     line-height: 1.2;
     display: flex;
@@ -522,10 +609,9 @@ nav #mobileview {
     align-items: center;
     justify-content: center;
     gap: 30px;
-    margin-top: 20px;
   }
   #info-resume #info1 button {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   #info-resume .resume-stack {
     padding-top: 120px;

@@ -6,10 +6,15 @@ import Navbar from "./navbar";
 import Drop from "./drop.jsx";
 import HeroSection from "./HeroSection.jsx";
 import Testonomial from "./Testonomial.jsx";
+
 // import FeaturesSection from "./FeaturesSection";
 
 // STYLES — VERY IMPORTANT
 import "../styles/main.scss";
+import FeaturesSection from "./FeaturesSection.jsx";
+import Footer from "./Footer.jsx";
+import About from "./About.jsx";
+
 
 export default function App() {
   const { user, isSignedIn } = useUser();
@@ -34,12 +39,14 @@ export default function App() {
   }, [isSignedIn, user]);
 
   return (
-    <main>
+    <main className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
       <HeroSection />
       <Drop />
-      <Testonomial/>
-      {/* <FeaturesSection /> */}
+      <FeaturesSection />
+      <Testonomial />
+      <About/>
+      <Footer/>
     </main>
   );
 }

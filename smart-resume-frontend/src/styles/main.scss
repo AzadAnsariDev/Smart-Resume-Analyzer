@@ -1,6 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
-  font-family: info;
-  src: url(./fonts/info.woff2);
+  font-family: new;
+  src: url(/smart-resume-frontend/public/fonts/Inter.ttc);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .cl-userButtonTrigger span[class^="cl-internal"] {
@@ -16,12 +28,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: new;
 }
 html,
-body {
+body,#root {
   height: 100%;
   width: 100%;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+
 
 body {
   background: #000;
@@ -29,8 +48,8 @@ body {
 }
 @mixin glow() {
   position: absolute;
-  width: 25vw;
-  height: 25vw;
+  width: 20vw;
+  height: 20vw;
   background: #144b3e;
   filter: blur(100px);
   top: -150px;
@@ -277,6 +296,13 @@ nav {
   color:white;
   font-family: monospace;
   margin-bottom: 20px;
+  
+  .glow4{
+    @include glow();
+      top: 500px;
+      left: 0%;
+       transform: translateX(-50%);
+  }
 
 .file-wrapper {
   display: flex;
@@ -446,6 +472,30 @@ nav {
     }
   }
 
+       .container {
+    padding-top: 30px;
+
+    > h1 {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .card-container {
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .card {
+        width: 50%;
+        padding-block: 30px;
+
+        img {
+          width: 90px;
+          height: 90px;
+        }
+      }
+    }
+  }
+
   /* 👇 YE NAV KE BAHAR HOGA */
   #info-resume {
     .resume-stack {
@@ -526,35 +576,75 @@ nav {
   .drop-container{
     width: 90vw;
   }
+   
+  .container {
+    padding-top: 30px;
+
+    > h1 {
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    .card-container {
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .card {
+        width: 90%;
+        padding-block: 30px;
+
+        img {
+          width: 90px;
+          height: 90px;
+        }
+      }
+    }
+  }
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 916px) {
   main {
     padding-top: 0px;
   }
   nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 10rem;
+
     #nav-info h4:nth-child(3) {
       display: none;
     }
-    #nav-info h4 {
-      font-size: 1.4rem;
+    #nav-info {
+    border: 2px solid gray;
+    padding: 10px 20px;
+    border-radius: 20px;
+    h4 {
+      font-size: 1rem;
     }
+  }
     #logo-container {
       padding-left: 50px;
       h2 {
-        font-size: 1.4rem;
+        font-size: 1rem;
       }
+      img {
+      width: 100%;
+      height: 2.5rem;
+      object-fit: cover;
+      object-position: center;
+      z-index: 10;
+    }
     }
 
     #login {
-      width: 40%;
+      min-width: fit-content;
       :nth-child(1) {
-        font-size: 1.4rem;
+        font-size: 1rem;
+        white-space: nowrap;
       }
       :nth-child(2) {
-        font-size: 1.4rem;
+        font-size: 1rem;
+        white-space: nowrap;
       }
     }
   }
@@ -564,8 +654,9 @@ nav {
     justify-content: center;
     gap: 5vw;
     align-items: center;
+    margin-top: 5rem;
     #info1 {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       max-width: 50vw;
       line-height: 1.2;
       display: flex;
@@ -573,10 +664,9 @@ nav {
       align-items: center;
       justify-content: center;
       gap: 30px;
-      margin-top: 20px;
 
       button {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
       }
     }
     .resume-stack {

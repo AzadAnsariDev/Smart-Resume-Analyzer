@@ -18,7 +18,7 @@ export default function Navbar() {
     const handleScroll = () => {
       let current = window.scrollY;
 
-      if (current > 20) {
+      if (current >= 0) {
         navbar.classList.add("scrolled");
       } else {
         navbar.classList.remove("scrolled");
@@ -44,13 +44,11 @@ export default function Navbar() {
         <h2>UpgradeCV</h2>
       </div>
 
-      <div className="glow1"></div>
-
       <div id="nav-info">
-        <Link to="/"><h4>Home</h4></Link>
-        <Link to="/features"><h4>Service</h4></Link>
-        <Link to="/about"><h4>About</h4></Link>
-        <Link to="/contact"><h4>Contact</h4></Link>
+        <a href="#">Home</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </div>
 
       <div id="login">

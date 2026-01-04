@@ -23,7 +23,10 @@ function Drop() {
   }
 
   return (
-    <div className="drop-container">
+    
+    <div id="analyze" className="drop-container scroll-mt-32">
+      
+      <div className="glow4"></div>
       <h3>
         Drop your resume here or choose a file
         <br /> PDF & DOCX only. Max 2MB file size.
