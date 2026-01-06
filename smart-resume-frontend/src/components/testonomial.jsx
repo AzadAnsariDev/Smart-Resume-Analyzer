@@ -1,6 +1,6 @@
 import React from 'react'
 
-function testonomial() {
+function Testonomial() {
   return (
   
     <div className="container">
@@ -37,4 +37,4 @@ function testonomial() {
   )
 }
 
-export default testonomial
+export default Testonomial
