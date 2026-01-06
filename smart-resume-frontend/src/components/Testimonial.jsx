@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Testonomial() {
+function Testimonial() {
   return (
   
     <div className="container">
@@ -37,4 +37,4 @@ function Testonomial() {
   )
 }
 
-export default Testonomial
+export default Testimonial

@@ -5,7 +5,7 @@ import { useUser } from "@clerk/clerk-react";
 import Navbar from "./navbar";
 import Drop from "./drop.jsx";
 import HeroSection from "./HeroSection.jsx";
-import Testonomial from "./Testonomial.jsx";
+import Testimonial from "./Testimonial.jsx";
 
 // import FeaturesSection from "./FeaturesSection";
 
@@ -44,7 +44,7 @@ export default function App() {
       <HeroSection />
       <Drop />
       <FeaturesSection />
-      <Testonomial />
+      <Testimonial />
       <About/>
       <Footer/>
     </main>
