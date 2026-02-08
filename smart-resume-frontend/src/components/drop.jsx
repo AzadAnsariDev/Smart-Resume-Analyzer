@@ -48,7 +48,7 @@ function Drop({ setAnalysis, setLoading }) {
       const formData = new FormData();
       formData.append("resume", file);
 
-      const res = await fetch("http://localhost:5000/api/resume/upload", {
+      const res = await fetch("https://smart-resume-analyzer-2t38.onrender.com/api/resume/upload", {
         method: "POST",
         body: formData,
       });

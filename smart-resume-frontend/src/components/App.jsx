@@ -26,7 +26,7 @@ export default function App() {
   // Save user once logged in
   async function saveUserToBackend(user) {
     try {
-      await fetch("http://localhost:5000/api/save-user", {
+      await fetch("https://smart-resume-analyzer-2t38.onrender.com/api/save-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
