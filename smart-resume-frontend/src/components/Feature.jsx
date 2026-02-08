@@ -5,7 +5,7 @@ const Feature = forwardRef((props, ref) => {
 
   const featuresData = [
   {
-    title: "AI Resume Analysis",
+    title: "Accurate Resume Analysis",
     desc: "AI powered resume evaluation"
   },
   {

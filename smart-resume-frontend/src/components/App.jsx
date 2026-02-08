@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 
 // Components
@@ -6,30 +6,39 @@ import Navbar from "./navbar";
 import Drop from "./drop.jsx";
 import HeroSection from "./HeroSection.jsx";
 import Testimonial from "./Testimonial.jsx";
-
-// import FeaturesSection from "./FeaturesSection";
-
-// STYLES — VERY IMPORTANT
-import "../styles/main.scss";
 import FeaturesSection from "./FeaturesSection.jsx";
 import Footer from "./Footer.jsx";
 import About from "./About.jsx";
+import Loader from "./Loader";
 
+// 🔥 NEW PREMIUM REVIEW PAGE
+import ResumeReview from "../pages/ResumeReview";
+
+// Styles
+import "../styles/main.scss";
 
 export default function App() {
   const { user, isSignedIn } = useUser();
 
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Save user once logged in
   async function saveUserToBackend(user) {
-    await fetch("http://localhost:5000/api/save-user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        clerkId: user.id,
-        email: user.primaryEmailAddress?.emailAddress,
-        name: user.fullName,
-        image: user.imageUrl,
-      }),
-    });
+    try {
+      await fetch("http://localhost:5000/api/save-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clerkId: user.id,
+          email: user.primaryEmailAddress?.emailAddress,
+          name: user.fullName,
+          image: user.imageUrl,
+        }),
+      });
+    } catch (err) {
+      console.error("User save error:", err);
+    }
   }
 
   useEffect(() => {
@@ -38,15 +47,36 @@ export default function App() {
     }
   }, [isSignedIn, user]);
 
+  useEffect(() => {
+  if (analysis) {
+    console.log("ANALYSIS DATA 👉", analysis);
+  }
+}, [analysis]);
+
   return (
     <main className="min-h-screen w-full overflow-x-hidden">
       <Navbar />
-      <HeroSection />
-      <Drop />
-      <FeaturesSection />
-      <Testimonial />
-      <About/>
-      <Footer/>
+
+      {/* 🔥 GLOBAL LOADER */}
+      {loading && <Loader />}
+
+      {/* 🔥 IF ANALYSIS EXISTS → SHOW PREMIUM REVIEW PAGE */}
+      {analysis ? (
+        <ResumeReview
+  analysis={analysis.analysis}
+  onBack={() => setAnalysis(null)}
+/>
+
+      ) : (
+        <>
+          <HeroSection />
+          <Drop setAnalysis={setAnalysis} setLoading={setLoading} />
+          <FeaturesSection />
+          <Testimonial />
+          <About />
+          <Footer />
+        </>
+      )}
     </main>
   );
 }

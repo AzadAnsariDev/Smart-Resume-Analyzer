@@ -22,8 +22,8 @@ const About = () => {
           Smart Resume Analyzer
         </h2>
         <p className="text-sm mt-2 max-w-md">
-          AI-powered platform that analyzes resumes, predicts job matches,
-          and helps recruiters shortlist candidates smarter.
+          Smart platform that analyzes resumes, give suggestions,
+          and helps candidates stands out.
         </p>
       </div>
 
@@ -43,20 +43,20 @@ const About = () => {
       <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
         <h3 className="text-white font-medium mb-3">Core Features</h3>
         <ul className="space-y-2 text-sm">
-          <li>AI Resume Scoring</li>
-          <li>Job Description Matching</li>
-          <li>Skill Gap Analysis</li>
-          <li>Recruiter Dashboard</li>
+          <li>ATS Resume Scoring</li>
+          <li>Smart Suggestions</li>
+          <li>What to Improve</li>
+          <li>Interactive Dashboard</li>
         </ul>
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
         <h3 className="text-white font-medium mb-3">Technology</h3>
         <ul className="space-y-2 text-sm">
-          <li>MERN Stack</li>
-          <li>Machine Learning</li>
-          <li>NLP Processing</li>
-          <li>JWT & Secure Auth</li>
+          <li>React JS</li>
+          <li>Node JS</li>
+          <li>Mongo DB</li>
+          <li>Clerk Secure Auth</li>
         </ul>
       </div>
 

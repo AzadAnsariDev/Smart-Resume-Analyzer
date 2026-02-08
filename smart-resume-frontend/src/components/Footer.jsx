@@ -19,15 +19,19 @@ const Footer = () => {
           <a href="#" className="hover:text-white transition">Home</a>
           <a href="#solutions" className="hover:text-white transition">Solutions</a>
           <a href="#about" className="hover:text-white transition">About</a>
-          <a href="#contact" className="hover:text-white transition">Contact</a>
+          <a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=azadansaridev@gmail.com&su=Smart%20Resume%20Analyzer%20-%20Contact"
+  target="_blank"
+  rel="noreferrer"
+ className="hover:text-white transition">Contact</a>
         </div>
 
 
         {/* Socials */}
         <div className="flex gap-6 text-gray-400 text-lg">
-          <span className="hover:text-white cursor-pointer transition">GitHub</span>
-          <span className="hover:text-white cursor-pointer transition">LinkedIn</span>
-          <span className="hover:text-white cursor-pointer transition">X</span>
+        <a href="https://github.com/azadansaridev/Smart-Resume-Analyzer" target="_blank"><span className="hover:text-white cursor-pointer transition">GitHub</span></a>
+          <span className="hover:text-white cursor-pointer transition">Portfolio</span>
+        <a href="https://www.notion.so/301b77866a24803b9410c8cf80c8b73e?source=copy_link" target="_blank"> <span className="hover:text-white cursor-pointer transition">Blog</span></a>
         </div>
 
         {/* Divider */}
