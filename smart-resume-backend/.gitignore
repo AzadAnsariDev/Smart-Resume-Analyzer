@@ -1,1 +1,27 @@
-* .env
+# NODE MODULES
+node_modules/
+smart-resume-backend/node_modules/
+smart-resume-frontend/node_modules/
+
+# LOCK FILES (optional)
+package-lock.json
+
+# BUILD FILES
+dist/
+build/
+
+# LOGS
+*.log
+
+# ENV
+*.env
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+
