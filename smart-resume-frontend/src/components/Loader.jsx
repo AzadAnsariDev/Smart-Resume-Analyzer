@@ -7,7 +7,7 @@ function Loader() {
       </div>
 
       <p className="text-white mt-8 text-lg tracking-widest animate-pulse">
-        Analyzing Resume with AI...
+        Analyzing Resume, Please Wait...
       </p>
     </div>
   );
