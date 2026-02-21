@@ -17,6 +17,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 // =========================
 const resumeCache = new Map();
 
+// 🔥 TEMP: clear old cache on server start
+resumeCache.clear();
+
 // =========================
 // Gemini SDK
 // =========================
@@ -74,6 +77,109 @@ function generateResumeHash(text) {
 }
 
 // =========================
+// ALGORITHM (NEW - TRADITIONAL ATS)
+// =========================
+function normalizeAlgo(text = "") {
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+const ALGO_SKILLS = [
+  "javascript","react","node","express","mongodb","sql","html","css",
+  "git","github","docker","aws","api","python","java","tailwind"
+];
+
+function algoScoreToLevel(score) {
+  if (score <= 30) return "very_weak";
+  if (score <= 40) return "weak";
+  if (score <= 55) return "below_average";
+  if (score <= 70) return "average";
+  if (score <= 85) return "good";
+  return "strong";
+}
+
+function algorithmAnalysis(resumeText) {
+  const resume = normalizeAlgo(resumeText);
+
+  // ATS SCORE (simple keyword density)
+  const words = resume.split(" ");
+  const uniqueWords = [...new Set(words)];
+  const atsScoreRaw = Math.min(100, Math.round((uniqueWords.length / 200) * 100));
+
+  const ATS_algo = {
+    level: algoScoreToLevel(atsScoreRaw),
+    tips: [
+      {
+        type: "improve",
+        tip: "Use more job-relevant keywords",
+        explanation:
+          "Including relevant skills, tools, and role-specific keywords improves keyword matching in traditional ATS systems and increases the likelihood of your resume passing automated screening filters."
+      }
+    ]
+  };
+
+  const presentSkills = ALGO_SKILLS.filter(s => resume.includes(s));
+  const skills_algo = {
+    level: algoScoreToLevel(Math.round((presentSkills.length / ALGO_SKILLS.length) * 100)),
+    tips: [
+      {
+        type: "improve",
+        tip: "Add missing relevant skills",
+        explanation:
+          "Adding relevant technical skills aligned with the job role helps ATS systems match your profile more accurately and assists recruiters in quickly assessing your suitability for the position."
+      }
+    ]
+  };
+
+  const hasProjects = resume.includes("projects");
+  const structure_algo = {
+    level: hasProjects ? "good" : "below_average",
+    tips: [
+      {
+        type: "improve",
+        tip: "Add standard section headings",
+        explanation:
+          "Using clear and standard section headings such as Skills, Experience, Education, and Projects helps ATS software correctly parse and organize resume content during automated screening."
+      }
+    ]
+  };
+
+  const hasNumbers = /\d+%|\d+\+/.test(resume);
+  const content_algo = {
+    level: hasNumbers ? "good" : "average",
+    tips: [
+      {
+        type: "improve",
+        tip: "Add measurable achievements",
+        explanation:
+          "Including quantified achievements and outcomes strengthens resume content quality and helps both ATS systems and recruiters better understand the impact of your contributions."
+      }
+    ]
+  };
+
+  const longLines = resumeText.split(".").some(s => s.length > 180);
+  const toneAndStyle_algo = {
+    level: longLines ? "average" : "good",
+    tips: [
+      {
+        type: "improve",
+        tip: "Use concise bullet points",
+        explanation:
+          "Keeping bullet points concise and well-structured improves readability and professional tone, making it easier for ATS systems and recruiters to quickly scan your resume."
+      }
+    ]
+  };
+
+  return {
+    ATS: ATS_algo,
+    toneAndStyle: toneAndStyle_algo,
+    content: content_algo,
+    structure: structure_algo,
+    skills: skills_algo,
+    atsScore: atsScoreRaw
+  };
+}
+
+// =========================
 // Routes
 // =========================
 export default function resumeRoutes(app) {
@@ -125,8 +231,6 @@ export default function resumeRoutes(app) {
       // =========================
       // AI ANALYSIS (PROMPTS SAME)
       // =========================
-
-
 
       const ATS = await askGeminiJSON(`
 Analyze the resume for ATS suitability.
@@ -288,44 +392,49 @@ ${resumeText}
 """
 `);
 
-let overallScore = 0;
+      let overallScore = 0;
 
-if (ATS.level === "very_weak") overallScore += 30 * 0.3;
-if (ATS.level === "weak") overallScore += 45 * 0.3;
-if (ATS.level === "below_average") overallScore += 55 * 0.3;
-if (ATS.level === "average") overallScore += 65 * 0.3;
-if (ATS.level === "good") overallScore += 78 * 0.3;
-if (ATS.level === "strong") overallScore += 88 * 0.3;
+      if (ATS.level === "very_weak") overallScore += 30 * 0.3;
+      if (ATS.level === "weak") overallScore += 45 * 0.3;
+      if (ATS.level === "below_average") overallScore += 55 * 0.3;
+      if (ATS.level === "average") overallScore += 65 * 0.3;
+      if (ATS.level === "good") overallScore += 78 * 0.3;
+      if (ATS.level === "strong") overallScore += 88 * 0.3;
 
-if (content.level === "very_weak") overallScore += 30 * 0.25;
-if (content.level === "weak") overallScore += 45 * 0.25;
-if (content.level === "below_average") overallScore += 55 * 0.25;
-if (content.level === "average") overallScore += 65 * 0.25;
-if (content.level === "good") overallScore += 78 * 0.25;
-if (content.level === "strong") overallScore += 88 * 0.25;
+      if (content.level === "very_weak") overallScore += 30 * 0.25;
+      if (content.level === "weak") overallScore += 45 * 0.25;
+      if (content.level === "below_average") overallScore += 55 * 0.25;
+      if (content.level === "average") overallScore += 65 * 0.25;
+      if (content.level === "good") overallScore += 78 * 0.25;
+      if (content.level === "strong") overallScore += 88 * 0.25;
 
-if (skills.level === "very_weak") overallScore += 30 * 0.2;
-if (skills.level === "weak") overallScore += 45 * 0.2;
-if (skills.level === "below_average") overallScore += 55 * 0.2;
-if (skills.level === "average") overallScore += 65 * 0.2;
-if (skills.level === "good") overallScore += 78 * 0.2;
-if (skills.level === "strong") overallScore += 88 * 0.2;
+      if (skills.level === "very_weak") overallScore += 30 * 0.2;
+      if (skills.level === "weak") overallScore += 45 * 0.2;
+      if (skills.level === "below_average") overallScore += 55 * 0.2;
+      if (skills.level === "average") overallScore += 65 * 0.2;
+      if (skills.level === "good") overallScore += 78 * 0.2;
+      if (skills.level === "strong") overallScore += 88 * 0.2;
 
-if (structure.level === "very_weak") overallScore += 30 * 0.15;
-if (structure.level === "weak") overallScore += 45 * 0.15;
-if (structure.level === "below_average") overallScore += 55 * 0.15;
-if (structure.level === "average") overallScore += 65 * 0.15;
-if (structure.level === "good") overallScore += 78 * 0.15;
-if (structure.level === "strong") overallScore += 88 * 0.15;
+      if (structure.level === "very_weak") overallScore += 30 * 0.15;
+      if (structure.level === "weak") overallScore += 45 * 0.15;
+      if (structure.level === "below_average") overallScore += 55 * 0.15;
+      if (structure.level === "average") overallScore += 65 * 0.15;
+      if (structure.level === "good") overallScore += 78 * 0.15;
+      if (structure.level === "strong") overallScore += 88 * 0.15;
 
-if (toneAndStyle.level === "very_weak") overallScore += 30 * 0.1;
-if (toneAndStyle.level === "weak") overallScore += 45 * 0.1;
-if (toneAndStyle.level === "below_average") overallScore += 55 * 0.1;
-if (toneAndStyle.level === "average") overallScore += 65 * 0.1;
-if (toneAndStyle.level === "good") overallScore += 78 * 0.1;
-if (toneAndStyle.level === "strong") overallScore += 88 * 0.1;
+      if (toneAndStyle.level === "very_weak") overallScore += 30 * 0.1;
+      if (toneAndStyle.level === "weak") overallScore += 45 * 0.1;
+      if (toneAndStyle.level === "below_average") overallScore += 55 * 0.1;
+      if (toneAndStyle.level === "average") overallScore += 65 * 0.1;
+      if (toneAndStyle.level === "good") overallScore += 78 * 0.1;
+      if (toneAndStyle.level === "strong") overallScore += 88 * 0.1;
 
-overallScore = Math.round(overallScore);
+      overallScore = Math.round(overallScore);
+
+      // =========================
+      // ALGORITHM ANALYSIS (NEW)
+      // =========================
+      const algorithm = algorithmAnalysis(resumeText);
 
       // =========================
       // FINAL RESPONSE (SAFE)
@@ -337,6 +446,7 @@ overallScore = Math.round(overallScore);
         content,
         structure,
         skills,
+        algorithm
       };
 
       // 🔐 SAVE CACHE

@@ -1,13 +1,23 @@
+import { useState } from "react";
 import ScoreGauge from "../components/ScoreGauge";
 import SectionRow from "../components/SectionRow";
 
 export default function ResumeReview({ analysis, onBack }) {
   if (!analysis) return null;
 
-  // 🔥 UPDATED: score nahi, tips ke basis pe sections nikaal rahe hain
-  const sections = Object.entries(analysis).filter(
+  const [mode, setMode] = useState("ai"); // "ai" | "algo"
+
+  // 🔐 Safe source (AI or Algorithm)
+  const source =
+    mode === "ai"
+      ? analysis
+      : (analysis?.algorithm || {});
+
+  // 🔎 Sections filter (works for both AI & Algorithm)
+  const sections = Object.entries(source || {}).filter(
     ([key, value]) =>
       key !== "overallScore" &&
+      key !== "atsScore" &&
       value &&
       typeof value === "object" &&
       Array.isArray(value.tips) &&
@@ -21,6 +31,8 @@ export default function ResumeReview({ analysis, onBack }) {
       .replace(/^./, (c) => c.toUpperCase());
   };
 
+  console.log("FULL ANALYSIS 👉", analysis);
+console.log("ALGORITHM 👉", analysis?.algorithm);
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#020617] text-gray-200 p-10">
 
@@ -47,6 +59,30 @@ export default function ResumeReview({ analysis, onBack }) {
           </p>
         </div>
 
+        {/* Toggle */}
+        <div className="mb-6 flex gap-3">
+          <button
+            onClick={() => setMode("ai")}
+            className={`px-4 py-2 rounded-full border transition-all ${
+              mode === "ai"
+                ? "bg-indigo-600/30 border-indigo-400/60 text-white shadow-[0_0_20px_-8px_rgba(99,102,241,0.6)]"
+                : "bg-slate-900/70 border-slate-700/50 text-gray-300 hover:text-white"
+            }`}
+          >
+            AI (Gemini)
+          </button>
+          <button
+            onClick={() => setMode("algo")}
+            className={`px-4 py-2 rounded-full border transition-all ${
+              mode === "algo"
+                ? "bg-indigo-600/30 border-indigo-400/60 text-white shadow-[0_0_20px_-8px_rgba(99,102,241,0.6)]"
+                : "bg-slate-900/70 border-slate-700/50 text-gray-300 hover:text-white"
+            }`}
+          >
+            Algorithm ATS
+          </button>
+        </div>
+
         {/* Back Button */}
         <button
           onClick={onBack}
@@ -65,16 +101,28 @@ export default function ResumeReview({ analysis, onBack }) {
 
         {/* Overall Score */}
         <div className="mb-14">
-          <ScoreGauge score={analysis.overallScore} />
+          <ScoreGauge
+            score={
+              mode === "ai"
+                ? analysis?.overallScore || 0
+                : analysis?.algorithm?.atsScore || 0
+            }
+          />
         </div>
 
-        {/* 🔥 Sections */}
+        {/* Sections */}
         <div className="space-y-6">
+          {sections.length === 0 && (
+            <div className="text-gray-400 italic">
+              No analysis sections available for this mode.
+            </div>
+          )}
+
           {sections.map(([key, data]) => (
             <SectionRow
               key={key}
               title={formatTitle(key)}
-              level={data.level}   // 🔥 score ❌ → level ✅
+              level={data.level}
               tips={data.tips}
             />
           ))}
