@@ -56,7 +56,7 @@ function Drop({ setAnalysis, setLoading }) {
       const data = await res.json();
       setAnalysis(data);
     } catch (err) {
-      alert("Resume analyze me error aaya");
+      alert("Something Went wrong , tyr again");
     } finally {
       setLoading(false);
     }
